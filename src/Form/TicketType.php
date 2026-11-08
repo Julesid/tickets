@@ -19,6 +19,8 @@ class TicketType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
+                'required' => false,
+                'placeholder' => '— Classement automatique —',
             ])
         ;
     }

@@ -1,0 +1,16 @@
+framework:
+    workflows:
+        ticket:
+            type: state_machine
+            marking_store:
+                type: method
+                property: status
+            supports:
+                - App\Entity\Ticket
+            initial_marking: new
+            places: [new, qualified, in_progress, resolved]
+            transitions:
+                qualify:     { from: new,         to: qualified }
+                start:       { from: qualified,   to: in_progress }
+                resolve:     { from: in_progress, to: resolved }
+                reopen:      { from: resolved,    to: in_progress }

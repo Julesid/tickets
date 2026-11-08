@@ -40,4 +40,13 @@ class TicketRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    /** @return array<array{status: string, total: int}> */
+    public function countByStatus(): array
+    {
+        return $this->createQueryBuilder('t')
+            ->select('t.status AS status, COUNT(t.id) AS total')
+            ->groupBy('t.status')
+            ->getQuery()
+            ->getArrayResult();
+    }
 }

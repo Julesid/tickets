@@ -21,7 +21,15 @@
             </tr>
             <tr>
                 <th>Status</th>
-                <td>{{ ticket.status }}</td>
+                <td>
+                    <span class="badge bg-secondary">{{ ticket.status }}</span>
+                    {% for t in workflow_transitions(ticket) %}
+                        <form method="post" action="{{ path('app_ticket_transition', {id: ticket.id, transition: t.name}) }}" class="d-inline">
+                            <input type="hidden" name="_token" value="{{ csrf_token('transition' ~ ticket.id) }}">
+                            <button class="btn btn-sm btn-outline-primary">{{ t.name }}</button>
+                        </form>
+                    {% endfor %}
+                </td>
             </tr>
             <tr>
                 <th>CreatedAt</th>
