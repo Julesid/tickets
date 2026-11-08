@@ -29,6 +29,12 @@ class Ticket
     #[ORM\ManyToOne(inversedBy: 'tickets')]
     private ?Category $category = null;
 
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $priority = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $aiDraft = null;
+
      public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -95,6 +101,30 @@ class Ticket
     public function setCategory(?Category $category): static
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPriority(): ?string
+    {
+        return $this->priority;
+    }
+
+    public function setPriority(?string $priority): static
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    public function getAiDraft(): ?string
+    {
+        return $this->aiDraft;
+    }
+
+    public function setAiDraft(?string $aiDraft): static
+    {
+        $this->aiDraft = $aiDraft;
 
         return $this;
     }

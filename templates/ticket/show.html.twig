@@ -35,6 +35,8 @@
                 <th>CreatedAt</th>
                 <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
+            <tr><th>Priorité</th><td>{{ ticket.priority ?? '—' }}</td></tr>
+            <tr><th>Brouillon IA</th><td>{{ ticket.aiDraft ? ticket.aiDraft|nl2br : 'En attente…' }}</td></tr>
         </tbody>
     </table>
 

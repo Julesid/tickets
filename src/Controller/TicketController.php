@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Workflow\WorkflowInterface;
 use App\Service\KeywordClassifier;
 use App\Repository\CategoryRepository;
+use Symfony\Component\Messenger\MessageBusInterface;
+use App\Message\QualifyTicket;
 
 #[Route('/ticket')]
 final class TicketController extends AbstractController
@@ -26,7 +28,7 @@ final class TicketController extends AbstractController
     }
 
     #[Route('/new', name: 'app_ticket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, KeywordClassifier $classifier, CategoryRepository $categoryRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, KeywordClassifier $classifier, CategoryRepository $categoryRepository, MessageBusInterface $bus): Response
     {
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
@@ -39,6 +41,7 @@ final class TicketController extends AbstractController
                 }
             $entityManager->persist($ticket);
             $entityManager->flush();
+            $bus->dispatch(new QualifyTicket($ticket->getId()));
 
             return $this->redirectToRoute('app_ticket_index', [], Response::HTTP_SEE_OTHER);
         }
