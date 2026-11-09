@@ -26,3 +26,8 @@ Symfony 6.4 · Doctrine · Workflow · Messenger · HttpClient · Twig/Bootstrap
 composer install · cp .env .env.local (DATABASE_URL, ANTHROPIC_API_KEY)
 php bin/console doctrine:migrations:migrate
 php bin/console messenger:consume async -vv
+
+## Déploiement
+o2switch, sous-domaine avec public/ comme racine du document, dump-env prod ;
+worker via cron avec --time-limit=55, faute de processus permanent sur le mutualisé ;
+piège rencontré : le binaire php du cron est la version CGI, il faut le chemin complet du binaire CLI.
